@@ -18,7 +18,9 @@ the story of how the work got where it is.
 a historical account, and a historical account cannot go stale. If today contradicts an old entry,
 that is a new entry. It also keeps the log's cost flat: a record that is only ever added to never
 has to be reconciled with itself, and reconciliation is where earlier ways of tracking work broke
-down.
+down. The one exception is something that should never have been written down at all, such as a
+credential or a patient's identifier: remove it, and say in a new entry what kind of thing was
+removed and why, without repeating it. It is still in the history, so treat a credential as exposed.
 
 **In order of time, not by subject.** The chronology is the part that is hard to reconstruct, and
 grouping is the part a search recovers for free.
@@ -56,12 +58,12 @@ grep -o '`\[[a-z-]*\]`' docs/LOG.md | sort | uniq -c | sort -rn
 ```
 
 Three transfer to any project and are worth using from the first entry: `[process]` for how the work
-itself is done, `[build]` for tooling and pipeline, and `[sitting]` for an entry that writes one up.
-The rest of the vocabulary is the project's own and accumulates one subject at a time: coin a tag
-when a second entry wants it, not in advance. And when two that look alike mean different things,
-write down which is which. One game's log used `[playtest]` for a sitting and `[play]` for anything
-a person playing it said, in a sitting or out of one, and kept the two apart for a week before
-anything said so.
+itself is done, `[build]` for the tooling the work runs on, and `[sitting]` for an entry that writes
+one up. The rest of the vocabulary is the project's own and accumulates one subject at a time: coin
+a tag when a second entry wants it, not in advance. And when two that look alike mean different
+things, write down which is which. One game's log used `[playtest]` for a sitting and `[play]` for
+anything a person playing it said, in a sitting or out of one, and kept the two apart for a week
+before anything said so.
 
 ### Two status tags, and they describe the new entry
 
@@ -70,7 +72,9 @@ Those are subject tags. Two more say what an entry does to the questions left op
 - **`[later]`**: this entry parks a question that cannot be answered yet, usually because what it is
   about does not exist yet. It must carry **what good and bad would look like** and **what has to
   exist first**, because that second thing is the trigger that makes it findable at the right
-  moment. A parked question that does not say what good looks like is a note to self.
+  moment. A parked question that does not say what good looks like is a note to self. To find the
+  ones still open, set the `[later]` headings against the **Resolves** lines:
+  `grep -nE '\[later\]|[Rr]esolves\.' docs/LOG.md`.
 - **`[resolved]`**: this entry closes a question an earlier entry left open, and names which. Not
   only `[later]` ones: an entry that ends by naming what it did not settle, or that writes a cost
   down as a bill for later, has left a question open just as squarely. **What does not earn it is a
@@ -78,8 +82,8 @@ Those are subject tags. Two more say what an entry does to the questions left op
   test is whether the earlier entry named something as open and this one closes it.
 
 **Both tags go on the new entry, and neither is ever added to an old one.** That is the append-only
-guideline, and it has no exception: a tag added to an old entry is still an edit to a historical
-account, and the fact that it is only an index does not make it not an edit.
+guideline: a tag added to an old entry is still an edit to a historical account, and the fact that
+it is only an index does not make it not an edit.
 
 ## `Resolves`, and why entries need no ids
 
@@ -96,8 +100,9 @@ number or a slug, would have to be written into the entry it names, and retrofit
 entries that already exist is the same edit to history as tagging them, spread over every entry
 instead of one. A derived id costs nothing and cannot disagree with what it names.
 
-Quote enough of the title to be unique, with its date; a distinctive fragment is fine. An entry that
-closes only part of a question says **Partly resolves.** and names the part.
+Quote enough of the title to be unique, with its date (a distinctive fragment is fine), and after a
+dash, the question it closes, in the earlier entry's words where it has them. An entry that closes
+only part of a question says **Partly resolves.** and names the part.
 
 **And because the id is the heading, granularity is free.** Nothing asks for one entry per day or
 per session: a date can carry as many entries as it needs, and each is still addressable. Split when
@@ -146,9 +151,9 @@ Two beats are worth protecting:
   lesson about how to work, write it where the principles are kept as well**, under *This project's
   own*, as `PRINCIPLES.md`'s *When you learn something* says: propose it to the person, work out its
   wording with them, end it with this entry's heading, and say so under **Changed elsewhere**. A
-  lesson a principle already says wants this entry's heading, not a second copy of itself. The log
-  is append only and read backwards, and a lesson left only here has been filed where nobody looks
-  before acting, which is how the same lesson gets written three times.
+  lesson a principle already says needs no second copy: name the principle in this entry instead.
+  The log is append only and read backwards, and a lesson left only here has been filed where nobody
+  looks before acting, which is how the same lesson gets written three times.
 
 ## Whose words are whose
 
@@ -191,14 +196,15 @@ caught.
   decision.
 - **What it asked for**, and **The decision**, where one was made.
 
-If their notes do not say whether they used the thing itself or judged it from pictures or a
-summary, ask before writing it up as a sitting. A sitting written up from pictures drops out of the
-count of how often the work has been tried, and that count is the one thing the log cannot rebuild.
-When they agree to something from pictures, say that it was from pictures: it still wants trying.
+If their notes do not say whether they used the thing itself or judged it from something standing in
+for it, such as pictures of a screen or a summary of a result, ask before writing it up as a
+sitting. A sitting written up from stand-ins drops out of the count of how often the work has been
+tried, and that count is the one thing the log cannot rebuild. When they agree to something from a
+stand-in, say so: it still wants trying.
 
-**A build.** Ends on **What it needs from a person**: a few things worth trying in a minute, with
-where to find them; what good and bad would look like; and the number most likely to be wrong,
-labelled as telemetry rather than as judgment. Offered, not assigned.
+**A build or a result.** Ends on **What it needs from a person**: a few things worth trying or
+reading in a minute, with where to find them; what good and bad would look like; and the number most
+likely to be wrong, labelled as a measurement rather than a judgment. Offered, not assigned.
 
 **A merge.** What came in. What each side's log said the other would need, read from both sides'
 **Changed elsewhere**, and done or handed on. What the merge made untrue. And any collision that was
@@ -239,7 +245,7 @@ sentence is one that reader needs now. One shape has held up:
 - **Measured.** The few numbers a reader needs now: those an open question or a decision rests on,
   and any cost the change brings, each with what it means and where it was taken. "An island takes 4
   s to build, up from 2 s (seeds 1–10): the price of the new shores", not a table of every count
-  taken along the way. Telemetry, not judgment. "Nothing" is an answer.
+  taken along the way. Measurements, not judgments. "Nothing" is an answer.
 - **Verification.** How the final run went: the gate on the last commit, and CI's result, read after
   the push. An earlier run belongs here only if it left something open, such as a failure that went
   away with no cause found.
@@ -247,9 +253,9 @@ sentence is one that reader needs now. One shape has held up:
 
 ## Before writing
 
-Read the last two or three entries. The register is specific, argumentative and unhedged, and it is
-easier to match than to describe. Match their register, and check their labels against this file
-before you copy them.
+Read the last three entries. The register is specific, argumentative and unhedged, with every guess
+labelled as one, and it is easier to match than to describe. Match their register, and check their
+labels against this file before you copy them.
 
 If there are none yet, a good first entry is the project's founding decisions, written down the day
 they are made, while the reasoning still seems too obvious to record.

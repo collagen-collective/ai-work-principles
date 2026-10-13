@@ -2,27 +2,8 @@
 
 `PRINCIPLES.md` is written for any agent. This is what is particular to Claude Code, learned the
 same way, by paying for it, and checked against Claude Code's documentation in October 2026. Where
-something is what one project observed rather than what the documentation says, it says so.
-
-## Where the principles go
-
-The principles only help if they are re-read. A designer, choosing where they should live: *"The
-principles only work if you can remind yourself to slow down and think things through, so I think
-the frequency with which CLAUDE.md is re-read makes it the proper candidate."*
-
-- **Files in `.claude/rules/` load like `CLAUDE.md`.** A rule file without `paths:` front matter
-  loads at the start of every session, with the same priority as `.claude/CLAUDE.md`, and comes back
-  from disk after the context is compacted. A file that `CLAUDE.md` imports with `@path` loads at
-  the start too, but the documentation does not say that an import comes back after compaction, so
-  the rules folder is the safer home for anything that has to stay in mind for a whole session.
-- **Rules in `~/.claude/rules/` load in every project on the machine**, and commit nothing to any of
-  them. Where a project carries its own copy of the principles as well, keep one of the two: Claude
-  may follow either of two instructions that disagree, and two copies drift apart.
-- **Sub-agents start with the session's `CLAUDE.md` files and rules**, so a brief does not need to
-  repeat the principles. The built-in Explore and Plan agents skip them, as does an agent defined
-  with `omitClaudeMd: true`: if a principle must reach one of those, put it in the brief. It is also
-  why a trial of guidance runs each arm as a fresh session rather than a sub-agent (the README's
-  *Changing the principles*).
+something is what one project observed rather than what the documentation says, it says so. Where
+the files go, and why there, is the README's.
 
 ## Calls that wait for the person
 
@@ -56,10 +37,13 @@ it.
 - A project's allow rules apply only once its folder has been trusted; its deny and ask rules apply
   at once.
 
-## Sub-agents in parallel
+## Sub-agents
 
 Principle 8's last *Looks like* line, in Claude Code's terms:
 
+- **Sub-agents start with the session's `CLAUDE.md` files and rules,** so a brief does not need to
+  repeat the principles. The built-in Explore and Plan agents skip them, as does an agent defined
+  with `omitClaudeMd: true`: if a principle must reach one of those, put it in the brief.
 - **A sub-agent's worktree is cut from the default branch,** not from the branch the session is on,
   unless `worktree.baseRef` is set to `"head"` in settings. So a sub-agent can start from code the
   session has long since moved past: have each check that its worktree holds your latest commit

@@ -8,8 +8,8 @@ built that way, and are written here for any work.
 
 - **[`PRINCIPLES.md`](./PRINCIPLES.md)**: how we work. The stance, then eight principles, each a
   trigger and an action for a kind of problem, with its reason, *Looks like* lines for code and for
-  data analysis, and one example from the games. It ends with the few terms these files use. It is
-  the file an agent reads every session.
+  data analysis, and examples from the games. It ends with the few terms these files use. It is the
+  file an agent reads every session.
 - **[`RECORD.md`](./RECORD.md)**: keeping the record. An append-only log of what was tried and what
   happened, whose words are whose, writing up a sitting with the person, and handing work over.
 - **[`CLAUDE-CODE.md`](./CLAUDE-CODE.md)**: what is particular to Claude Code. Where the principles
@@ -38,14 +38,19 @@ template keeps the cues that are about games.
 ## Using them in a project
 
 The files are used as they are, like a package: a project copies them in unedited and keeps its own
-lessons beside them, so that an update can replace the copies whole.
+lessons beside them, so that an update can replace the copies whole. The principles only help if
+they are re-read, which decides where they go. As a designer put it, choosing their home in the game
+template: *"The principles only work if you can remind yourself to slow down and think things
+through, so I think the frequency with which CLAUDE.md is re-read makes it the proper candidate."*
 
 **In Claude Code,** copy `PRINCIPLES.md` and `CLAUDE-CODE.md` into
-`.claude/rules/ai-work-principles/`. Files there load at the start of every session and come back
-after the context is compacted, which the documentation does not promise of a file that `CLAUDE.md`
-imports (`CLAUDE-CODE.md` has the detail). `RECORD.md` is needed only when the log is written, so it
-goes beside the log rather than into every session's context. Then say in the project's `CLAUDE.md`
-where the two are, and give the project a section of its own:
+`.claude/rules/ai-work-principles/`. A rule file there without `paths:` front matter loads at the
+start of every session, with the same priority as `CLAUDE.md`, and comes back from disk after the
+context is compacted. A file that `CLAUDE.md` imports with `@path` loads at the start too, but the
+documentation does not say that an import comes back after compaction. `RECORD.md` is needed only
+when the log is written, so it goes beside the log rather than into every session's context. Then
+say in the project's `CLAUDE.md` where the log and `RECORD.md` are, and give the project a section
+of its own:
 
 ```markdown
 ## How we work
@@ -62,10 +67,12 @@ entry it came from.*
 ```
 
 **For your own sessions rather than one project's,** copy `PRINCIPLES.md` and `CLAUDE-CODE.md` into
-`~/.claude/rules/` instead, and `RECORD.md` into a project when it starts keeping a log. The two
-then load in every project on that machine, and nothing is committed to any repository, which suits
-work whose repositories you cannot or would rather not change. Where a project carries its own copy
-as well, use one of the two.
+`~/.claude/rules/` instead. They then load in every project on that machine, and nothing goes into
+any repository, which suits work whose repositories you cannot or would rather not change. Keep
+*This project's own* in `~/.claude/CLAUDE.md`, for the lessons you learn across that work. This
+route keeps no log: a project that starts one takes `RECORD.md` and the log into its repository, as
+above. Where a project carries its own copy of the principles as well, use one of the two, since
+Claude may follow either of two instructions that disagree, and two copies drift apart.
 
 **With another agent,** put the text of `PRINCIPLES.md` in the file it reads at the start of every
 session (for many agents, `AGENTS.md`), keep `RECORD.md` where it can read it, and say in that file
@@ -94,8 +101,9 @@ Log the update if it changed anything about how the project works.
 ## Raising a lesson
 
 **What to raise.** A lesson, a check or a way of working that would have saved any project the same
-cost. Not what is about one project's subject, and not what is about one kind of work: a lesson
-about games goes to `ts-game-template`, which keeps the games' cues.
+cost. Not what is about one project's subject. A lesson that holds only for games goes to
+`ts-game-template`, which keeps the games' cues; one about code or data analysis, which have no
+template of their own, comes here.
 
 **Write it into the project first,** under *This project's own*, with its log entry. The project
 needs it while this repository decides, and a lesson left only in the log is filed where nobody
@@ -111,8 +119,8 @@ A lesson that cannot be told without them stays in the project.
 matching lessons from different projects can be found together. Brief it the way principle 8 says to
 brief another agent: which project it came from, where that can be said; what happened and what it
 cost; which principle it extends, or that none does; what is measured and what is a guess; and its
-log entry. You don't need to check whether another project has raised it first: matching issues is
-this repository's job.
+log entry's heading, where that can be said. You don't need to check whether another project has
+raised it first: matching issues is this repository's job.
 
 **What happens to it.** Lessons are triaged, and one is folded in once it clears the bar: it has
 come up in more than one project, or it would be expensive to work out again. Most become a sharper
@@ -131,23 +139,25 @@ request records why.
 (*before you trust a result*), not for one incident (*after a subsystem was switched off*); then its
 reason, stated so that it holds for work nobody has done yet, and so that when the principle is
 inconvenient the argument starts from the reason rather than from scratch; then *Looks like* lines,
-and at most one example. An example is one real scene that shows what the moment looks like. It is
-not evidence, so it carries no tally. Ten principles at most: adding one means merging or retiring
-another.
+and an example where one helps. An example is one real scene that shows what the moment looks like.
+It is not evidence, so it carries no tally. Ten principles at most: adding one means merging or
+retiring another.
 
 **The *Looks like* lines carry behaviour.** In the trial that settled the game template's wording
 ([`ts-game-template#22`](https://github.com/collagen-collective/ts-game-template/pull/22)), fresh
 sessions said what they would do next in fifteen situations from other games, graded blind against
-forty-four behaviours. A version that had cut its *Looks like* lines to the hardest few scored 32.3,
-against 37.0 for the longer text it replaced and 24.0 for no guidance at all. It had lost eight
-behaviours the longer text produced, and sessions with no guidance missed seven of the eight in
-every run: agents did not work them out from the principles, or unaided. Putting five lines back
-recovered all eight. So before cutting a concrete line, ask whether an agent would work it out from
-the principle alone; that trial says it often will not.
+forty-four behaviours. A version that had cut its *Looks like* lines to the hardest few scored 32.3
+of 44, the mean of three sessions, against 37.0 for the longer text it replaced and 24.0 for no
+guidance at all. It had lost eight behaviours the longer text produced, and sessions with no
+guidance missed seven of the eight in every run: agents did not work them out from the principles,
+or unaided. Putting five lines back recovered all eight. So before cutting a concrete line, ask
+whether an agent would work it out from the principle alone; that trial says it often will not. The
+lines here for code and data analysis have not been tried that way yet.
 
 **Try a change the same way:** fresh sessions for each arm (the current text, the proposed one, and
 none at all), situations the text was not written from, blind grading against the behaviours it
 should produce, a planted ideal answer and a planted weak answer as the graders' controls, and
-predictions written down before the round runs. Its limit is any trial's: a line shown to be read
-and applied in the situations that prompted it is not yet shown to reach situations worded
-differently.
+predictions written down before the round runs. In Claude Code, each arm is a session of its own,
+not a sub-agent: sub-agents start with the session's `CLAUDE.md` and rules, which would put one
+arm's text into every arm. Its limit is any trial's: a line shown to be read and applied in the
+situations that prompted it is not yet shown to reach situations worded differently.
